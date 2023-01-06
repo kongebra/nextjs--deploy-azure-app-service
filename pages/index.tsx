@@ -1,11 +1,27 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import styles from "../styles/Home.module.css";
+import { GetStaticProps } from "next";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+type Props = {
+  count: number;
+};
+
+let count = 0;
+
+export const getStaticProps: GetStaticProps<Props> = () => {
+  return {
+    props: {
+      count: count++,
+    },
+    revalidate: 5,
+  };
+};
+
+export default function Home({ count }: Props) {
   return (
     <>
       <Head>
@@ -19,6 +35,7 @@ export default function Home() {
           <p>
             Get started by editing&nbsp;
             <code className={styles.code}>pages/index.tsx</code>
+            <span>{` ${count}`}</span>
           </p>
           <div>
             <a
@@ -26,7 +43,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              By{' '}
+              By{" "}
               <Image
                 src="/vercel.svg"
                 alt="Vercel Logo"
@@ -119,5 +136,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
